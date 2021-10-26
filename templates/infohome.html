@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今日任務</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <style></style>    
+</head>
+<body>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <div id="app" >
+        <div style="background-color: white; height: 65px; text-align: center;font-weight: 800; box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);font-size:xxx-large;">[[title]]</div>
+        <!-- border-bottom:solid 1px; -->
+        <div style="height: 4px;"></div>
+        <div style="background-color:#f6f6f6;">
+            <div style="padding: 16px;height: 78px;">
+                <div style=" border-bottom:solid 2px;border-color: #adadad;padding: 0px;">
+                    <span>
+                        <img style="height: 35px;" src="../static/liff-pics/person.JPG" alt="">
+                    </span>
+                    <select name="patientName" id="patient" v-model="patientName" style="border: 0px;background-color:#f6f6f6 ;height: 78px;font-size:xx-large; color: #616161">
+                        <!-- <option value=""></option> -->
+                        <option :value="patientName">[[patientName]]</option>
+                    </select>
+                </div>
+            </div>
+            <div style="text-align: center; height:42px;" >
+                <input type="image" src="../static/liff-pics/leftArrow.png" style="height: 100%;background-color: #f6f6f6;padding: 0px 7px;"/>
+                <div style="background-color: white;display: inline-block;height: 42px;padding: 0px 40px;">
+                    <span>
+                        <img style="height: 100%;" src="../static/liff-pics/calender.png" alt="">
+                    </span>
+                    <span style="height: 100%;font-family: monospace;font-size: 33px;color: rgb(20, 129, 150);padding: 0px 0px 0px 7px; vertical-align: super;">2021/04/06</span>
+                </div>
+
+        
+                <input type="image" src="../static/liff-pics/rightArrow.png" style="height: 100%;background-color: #f6f6f6;padding: 0px 7px;"/>
+            </div>
+            <div class="box-container"> 
+                <div class="box-container-title">服藥</div>
+                <div class="box-container-contents">
+                    <img src="../static/liff-pics/close-pills.png" alt="" class="icon-pic">
+                    <div class="label-after-icon">早上服藥</div>  
+                    <input type="image" src="../static/liff-pics/detail-info-icon.png" class="icon-to-detail">
+                    <img src="../static/liff-pics/checkbox-checked.png" class="icon-checkbox">
+                </div>
+                <div class="box-container-contents">
+                    <img src="../static/liff-pics/close-pills.png" alt="" class="icon-pic">
+                    <div class="label-after-icon">中午服藥</div>  
+                    <input type="image" src="../static/liff-pics/detail-info-icon.png" class="icon-to-detail">
+                    <img src="../static/liff-pics/checkbox-checked.png" class="icon-checkbox">
+                </div>
+                <div class="box-container-contents">
+                    <img src="../static/liff-pics/close-pills.png" alt="" class="icon-pic">
+                    <div class="label-after-icon">晚上服藥</div>  
+                    <input type="image" src="../static/liff-pics/detail-info-icon.png" class="icon-to-detail">
+                    <img src="../static/liff-pics/checkbox-checked.png" class="icon-checkbox">
+                </div>
+                <div class="box-container-contents">
+                    <img src="../static/liff-pics/close-pills.png" alt="" class="icon-pic">
+                    <div class="label-after-icon">健康營養食品</div>  
+                    <input type="image" src="../static/liff-pics/checkbox-unchecked.png" class="icon-to-detail">
+                    <!-- <img src="checkbox-checked.png" class="icon-checkbox"> -->
+                </div>
+                <div class="box-container-tail"></div>
+            </div>
+        </div>
+        <div class="box-container"> 
+            <div class="box-container-title">健康數值</div>
+            <div class="box-container-contents">
+                <img src="../static/liff-pics/blood-pressure.png" alt="" class="icon-pic">
+                <div class="label-after-icon">血壓</div>  
+                <input type="image" src="../static/liff-pics/detail-info-icon.png" class="icon-to-detail">
+                <img src="../static/liff-pics/checkbox-checked.png" class="icon-checkbox">
+            </div>
+            <div class="box-container-contents">
+                <img src="../static/liff-pics/blood-sugar.png" alt="" class="icon-pic">
+                <div class="label-after-icon">血糖</div>  
+                <input type="image" src="../static/liff-pics/detail-info-icon.png" class="icon-to-detail">
+                <img src="../static/liff-pics/checkbox-checked.png" class="icon-checkbox">
+            </div>
+            <div class="box-container-contents">
+                <img src="../static/liff-pics/weight.png" alt="" class="icon-pic">
+                <div class="label-after-icon">體重</div>  
+                <input type="image" src="../static/liff-pics/detail-info-icon.png" class="icon-to-detail">
+                <img src="../static/liff-pics/checkbox-checked.png" class="icon-checkbox">
+            </div>
+            <div class="box-container-tail"></div>
+        </div>
+        <div class="box-container"> 
+            <div class="box-container-title">生活紀錄</div>
+            <div class="box-container-contents">
+                <img src="../static/liff-pics/exercise.png" alt="" class="icon-pic">
+                <div class="label-after-icon">運動</div>  
+                <input type="image" src="../static/liff-pics/detail-info-icon.png" class="icon-to-detail">
+                <img src="../static/liff-pics/checkbox-checked.png" class="icon-checkbox">
+            </div>
+            <div class="box-container-contents">
+                <img src="../static/liff-pics/poo.png" alt="" class="icon-pic">
+                <div class="label-after-icon">排便</div>  
+                <input type="image" src="../static/liff-pics/detail-info-icon.png" class="icon-to-detail">
+                <img src="../static/liff-pics/checkbox-checked.png" class="icon-checkbox">
+            </div>
+            <div class="box-container-contents">
+                <img src="../static/liff-pics/sleep.png" alt="" class="icon-pic">
+                <div class="label-after-icon">睡眠品質</div>  
+                <input type="image" src="../static/liff-pics/detail-info-icon.png" class="icon-to-detail">
+                <img src="../static/liff-pics/checkbox-checked.png" class="icon-checkbox">
+            </div>
+            <div class="box-container-tail"></div>
+        </div>
+    </div>
+
+    </div> 
+    <script src="dataGet.js"></script>
+    <script>
+        let totalData=allData;
+        // window.alert(JSON.stringify(totalData));
+        vm=Vue.createApp({
+            compilerOptions: {delimiters: ["[[", "]]"]},
+            created() {
+                this.getData();
+                window.addEventListener('beforeunload', this.sendData)
+             },
+            data(){
+                return{
+                    title:'今日任務',
+                    patientName:'柯文華'
+                }
+            },
+            methods:{
+                async getData() {
+                    try {
+                        let response = await fetch("http://jsonplaceholder.typicode.com/posts");
+                        window.alert(JSON.stringify(await response.json()));
+                        // totalData=await response.json();
+                    } catch (error) {
+                        console.log(error);
+                    }
+                },
+                async sendData() {
+                    // function download(content, fileName, contentType) {
+                    //     var a = document.createElement("a");
+                    //     var file = new Blob([content], {type: contentType});
+                    //     a.href = URL.createObjectURL(file);
+                    //     a.download = fileName;
+                    //     a.click();
+                    // }
+                    // download(JSON.stringify(totalData), 'json.txt', 'text/plain');
+                },
+            },
+            computed:{
+
+            }
+
+        }).mount("#app");
+    </script>
+</body>
+</html>

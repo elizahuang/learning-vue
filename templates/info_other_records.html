@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>其他紀錄</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <style></style>    
+</head>
+<body>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <div id="app" >
+        <div style="background-color: #FFD256; height: 65px; text-align: center;font-weight: 800; box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);font-size:xxx-large;">
+            <input type="image" src="../static/liff-pics/back.png" style="float: left;height:60%; padding: 15px 0px 0px 15px;">            
+            <span style="text-align: center;">[[title]]</span>
+        </div>
+
+        <div style="background-color:#f6f6f6;">
+            <!-- <div style="padding: 16px 16px 0px 16px;height: 14px;"></div> -->
+        
+            <div class="box-button-tags-container" > 
+                <button  class="other-record-tag">營養</button>
+                <button  class="other-record-tag">運動</button>
+                <button  class="other-record-tag">睡眠</button>
+                <button  class="other-record-tag">其他</button>
+            </div>
+
+            <div class="box-container-record" > 
+                <textarea class="other-record-title" name="other-record-title" id="other-record-title"  placeholder="點此輸入標題" rows="1"></textarea>
+                <textarea class="other-record-content" name="other-record-content" id="other-record-content" placeholder="點此紀錄內容" ></textarea>
+                
+            </div>
+            <div class="box-button-container " style="background-color: #f6f6f6; box-shadow:none"> 
+                <div>
+                    <input type="image" src="../static/liff-pics/add_photo_icon.png" class="add_record_button" >
+                    <input type="image" src="../static/liff-pics/add_record_icon.png" class="add_record_button" >
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <button type="button" class="btn" style=" border-color: #707070; background-color: #FFD256">確認</button>
+            </div>
+        </div>
+
+    </div> 
+    <div style="border: #707070 solid;">
+        <input type="file" id="fileInput" name="fileInput" />
+        <button type="button" onclick="chooseFile();">choose file</button>
+    </div>
+    <div id="uploadPreview"></div>
+    <script src="dataGet.js"></script>
+    <script>
+        let totalData=allData;
+        function chooseFile() {
+           $("#fileInput").click();
+        }
+        var _URL = window.URL || window.webkitURL;
+
+        $("#fileInput").change(function(e) {
+            var image, file;
+            if ((file = this.files[0])) {
+                image = new Image();
+                image.onload = function() {
+                        src = this.src;
+                        console.log(this.src);
+                $('#uploadPreview').html('<img src="'+ src +'"></div>');
+                        e.preventDefault();
+                    }
+                };
+                
+                image.src = _URL.createObjectURL(file);
+        });
+    </script>
+    <script>
+        var selectAll=false;
+        var vm=Vue.createApp({
+            compilerOptions: {delimiters: ["[[", "]]"]},
+            created() {
+                this.getData();
+                window.addEventListener('beforeunload', this.sendData)
+             },
+            data(){
+                return{
+                    title:'其他紀錄',
+                    medname:'伯基腸溶微粒膠囊',
+                    dose:'1顆',
+                    whenToTakeMed:'飯後'
+                    // patientName:'柯文華'
+                }
+            },
+            methods:{
+                async getData() {
+                    try {
+                        let response = await fetch("http://jsonplaceholder.typicode.com/posts");
+                        window.alert(JSON.stringify(await response.json()));
+                        // totalData=await response.json();
+                    } catch (error) {
+                        console.log(error);
+                    }
+                },
+                async sendData() {
+                    function download(content, fileName, contentType) {
+                        var a = document.createElement("a");
+                        var file = new Blob([content], {type: contentType});
+                        a.href = URL.createObjectURL(file);
+                        a.download = fileName;
+                        a.click();
+                    }
+                    download(JSON.stringify(totalData), 'json.txt', 'text/plain');
+                },
+            },
+            computed:{
+
+            }
+
+        }).mount("#app");
+    </script>
+</body>
+</html>

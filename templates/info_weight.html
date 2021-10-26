@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>體重</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <style></style>    
+</head>
+<body>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <div id="app" >
+        <div style="background-color: #FFD256; height: 65px; text-align: center;font-weight: 800; box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);font-size:xxx-large;">
+            <input type="image" src="../static/liff-pics/back.png" style="float: left;height:60%; padding: 15px 0px 0px 15px;">            
+            <span style="text-align: center;">體重</span>
+        </div>
+
+        <div style="background-color:#f6f6f6;">
+            <!-- <div style="padding: 16px 16px 0px 16px;height: 14px;"></div> -->
+
+            <div class="box-container-record box-blood-pressure" style="margin-top: 10px;" > 
+                <single-weight
+                    v-for="(item, index) in recordedWeight"
+                    :weight="item.value"
+                    :index="index">
+                </single-weight>
+                <input @click="addWeightRecord()" type="image" id="add-weight" src="../static/liff-pics/add-record.png" style="padding-top:2%; height: 35px;"/>
+                <!-- <add-weight></add-weight> -->
+            </div>
+
+            <div style="text-align: center;">
+                <button type="button" class="btn" style=" border-color: #707070; background-color: #FFD256">確認</button>
+            </div>
+        </div>
+
+    </div> 
+    <script src="dataGet.js"></script>
+    <script>
+        let totalData=allDataToSend;
+        var selectAll=false;
+        recordedWeight=totalData.records.body_records.weight;
+        console.log('here')
+        console.log(recordedWeight);
+        var vm=Vue.createApp({
+            compilerOptions: {delimiters: ["[[", "]]"]},
+            created() {
+                this.getData();
+                window.addEventListener('beforeunload', this.sendData)
+             },            
+            data(){
+                return{
+                    title:'體重',
+                    recordedWeight:totalData.records.body_records.weight,
+                    // patientName:'柯文華'
+                }
+            },
+            methods:{
+                async getData() {
+                    try {
+                        let response = await fetch("http://jsonplaceholder.typicode.com/posts");
+                        window.alert(JSON.stringify(await response.json()));
+                        // totalData=await response.json();
+                    } catch (error) {
+                        console.log(error);
+                    }
+                },
+                async sendData() {
+                    // function download(content, fileName, contentType) {
+                    //     var a = document.createElement("a");
+                    //     var file = new Blob([content], {type: contentType});
+                    //     a.href = URL.createObjectURL(file);
+                    //     a.download = fileName;
+                    //     a.click();
+                    // }
+                    // download(JSON.stringify(totalData), 'json.txt', 'text/plain');
+                },
+                addWeightRecord: function () {
+                    this.recordedWeight.push({value: '', date: ''});
+                }
+            },
+            computed:{
+
+            }
+
+        });
+        vm.component('single-weight',{
+            delimiters: ["[[", "]]"],
+            template:`
+            <div style=" overflow: hidden; border-bottom:solid 0.5px;border-color: #ccc;">
+                    <span class="icon-pic" >
+                        <img src="../static/liff-pics/weight.png" alt="blood-sugar.png" class="blood-pressure.png" style=" height:35px ;">
+                    </span>
+                    <span class="vertical-center-sugar" style="width: 20%; float: left;font-size: medium;font-weight:600;">
+                        體重-[[index+1]]
+                    </span>
+                    <span class="vertical-center-sugar" style="width: 30%;float: left;">
+                        <input v-model="weight" type="text"style="width: 40%;height: 80%;float:right;" class="input-box diastolic">
+                    </span>
+                </div>`,
+            props:{'weight':Number,'index':Number}
+        });
+        vm.mount("#app");
+    </script>
+</body>
+</html>

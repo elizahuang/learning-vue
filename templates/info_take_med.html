@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用藥確認</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <style></style>    
+</head>
+<body>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <div id="app" >
+        <div style="background-color: #FFD256; height: 65px; text-align: center;font-weight: 800; box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);font-size:xxx-large;">
+            <input type="image" src="../static/liff-pics/back.png" style="float: left;height:60%; padding: 15px 0px 0px 15px;">            
+            <span style="text-align: center;">[[title]]</span>
+        </div>
+
+        <div style="background-color:#f6f6f6;">
+            <div style="padding: 16px 16px 0px 16px;height: 78px;">
+                <div style=" border-bottom:solid 2px;border-color: #adadad;padding: 0px;">
+                    <!-- <span > -->
+                    <img style="height: 35px; float: left;" src="../static/liff-pics/close-pills.png" alt="">
+                    <!-- </span> -->
+                    <div style="height: 50px;font-size:x-large; color: #616161; padding-left: 50px;">早上用藥一覽</div>
+                </div>
+            </div>
+        
+            <div class="box-container-white" style="position:relative"> 
+                <img src="../static/liff-pics/pills_sample.JPG" alt="" class="med-pic">
+                <div style="width:2px;height:78px;margin-top: 9.5px;margin-bottom: 9.5px;" class="border-div"></div>
+                <div style="text-align: center;">
+                    <div style="position: absolute;top: 20%;left: 38%;">[[medname]]</div>
+                    <div style="position: absolute;top: 55%;left: 38%;">
+                        <span class="dose">[[dose]]</span>
+                        <span class="whenToTakeMed">[[whenToTakeMed]]</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box-container-white task-complete-mask" style="position:relative"> 
+                <img src="../static/liff-pics/pills_sample.JPG" alt="" class="med-pic">
+                <div style="width:2px;height:78px;margin-top: 9.5px;margin-bottom: 9.5px;" class="border-div"></div>
+                <div style="text-align: center;">
+                    <div style="position: absolute;top: 20%;left: 38%;">[[medname]]</div>
+                    <div style="position: absolute;top: 55%;left: 38%;">
+                        <span class="dose">[[dose]]</span>
+                        <span class="whenToTakeMed">[[whenToTakeMed]]</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box-container-white " style="position:relative; background-color: #f6f6f6; box-shadow:none"> 
+                <button type="button" class="btn" style="float: left; border-color: #adadad; background-color: white;">全選</button>
+                <button type="button" class="btn" style="float: right; border-color: #707070; background-color: #FFD256">打勾的全吃了</button>
+                <!-- background-color: #FFE9AC; -->
+            </div>
+        </div>
+
+    </div> 
+    <script src="dataGet.js"></script>
+    <script>
+        let totalData=allData;
+        var selectAll=false;
+        var vm=Vue.createApp({
+            compilerOptions: {delimiters: ["[[", "]]"]},
+            created() {
+                this.getData();
+                window.addEventListener('beforeunload', this.sendData)
+             },
+            data(){
+                return{
+                    title:'用藥確認',
+                    medname:'伯基腸溶微粒膠囊',
+                    dose:'1顆',
+                    whenToTakeMed:'飯後'
+                    // patientName:'柯文華'
+                }
+            },
+            methods:{
+                async getData() {
+                    try {
+                        let response = await fetch("http://jsonplaceholder.typicode.com/posts");
+                        window.alert(JSON.stringify(await response.json()));
+                        // totalData=await response.json();
+                    } catch (error) {
+                        console.log(error);
+                    }
+                },
+                async sendData() {
+                    function download(content, fileName, contentType) {
+                        var a = document.createElement("a");
+                        var file = new Blob([content], {type: contentType});
+                        a.href = URL.createObjectURL(file);
+                        a.download = fileName;
+                        a.click();
+                    }
+                    download(JSON.stringify(totalData), 'json.txt', 'text/plain');
+                },
+            },
+            computed:{
+
+            }
+
+        }).mount("#app");
+    </script>
+</body>
+</html>
