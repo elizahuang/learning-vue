@@ -2,6 +2,18 @@ body{
     background-color: #f6f6f6;
 }
 
+.circle-btn {
+    display:block;
+    height: 300px;
+    width: 300px;
+    border-radius: 50%;
+    border: 0px solid red;
+    cursor: pointer;
+    background-size: 100%,100% ! important; 
+    /* background-size:cover; */
+    background-repeat: no-repeat ! important; 
+  }
+
 .input-box{
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
     border:solid 1px #ccc; 
@@ -215,15 +227,15 @@ body{
 
 .add_record_button_container{
     float: right;
-    height: 55px;
-    width: 55px;
+    height: 100%;/*55px;*/
+    width: 100%;/*55px;*/
     border: none; 
     background-color: #f6f6f6;
 }
 
 .add_record_button{
     float: right;
-    /* box-shadow: 0 4px 4px rgba(0, 0, 0, 0.13); */
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.13);
     height: 40px;
     width: 40px;
     border: none; 

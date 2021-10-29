@@ -36,41 +36,50 @@
             </div>
             <div class="box-button-container " style="background-color: #f6f6f6; box-shadow:none"> 
                 <div>
-                    <input type="image" src="../static/liff-pics/add_photo_icon.png" class="add_record_button" >
-                    <input type="image" src="../static/liff-pics/add_record_icon.png" class="add_record_button" >
+                    <!-- <input type="image" src="../static/liff-pics/add_photo_icon.png" class="add_record_button" > -->
+                    <input type="file" id="fileInput" name="fileInput" style="display: none;" @change="addImgBox" ref="fileInput"/>
+                    <!-- <button type="button" onclick="chooseFile();" class="circle-btn add_record_button" style="background: url(../static/liff-pics/add_photo_icon.png); "></button> -->
+                    <button type="button" @click="chooseFile()" class="circle-btn add_record_button" style="background: url(../static/liff-pics/add_photo_icon.png); "></button>
+                    <button type="button" @click="addCard()" class="circle-btn add_record_button" style="background: url(../static/liff-pics/add_record_icon.png); "></button>
+                    <!-- <input type="image" src="../static/liff-pics/add_record_icon.png" class="add_record_button" > -->
                 </div>
             </div>
             <div style="text-align: center;">
                 <button type="button" class="btn" style=" border-color: #707070; background-color: #FFD256">確認</button>
             </div>
         </div>
-
+        <div id="uploadPreview" style="border: #707070 solid 5px;">
+            <single-img
+                v-for="url in previewURLCard"
+                :img_url=url
+                :index="index">
+            </single-img>  
+        </div>
     </div> 
-    <div style="border: #707070 solid;">
-        <input type="file" id="fileInput" name="fileInput" />
-        <button type="button" onclick="chooseFile();">choose file</button>
-    </div>
-    <div id="uploadPreview"></div>
+    <!-- <div style="border: #707070 solid;"> -->
+        <!-- <input type="file" id="fileInput" name="fileInput" style="display: none;"/> -->
+        <!-- <button type="button" onclick="chooseFile();" class="circle-btn" style="background: url(../static/liff-pics/add_photo_icon.png); "></button> -->
+    <!-- </div> -->
+
+    <!-- <div id="uploadPreview"></div> -->
     <script src="dataGet.js"></script>
     <script>
         let totalData=allData;
-        function chooseFile() {
-           $("#fileInput").click();
-        }
         var _URL = window.URL || window.webkitURL;
-
+        // console.log('print _URL')
+        // console.log(_URL);
         $("#fileInput").change(function(e) {
+            console.log('here2')
             var image, file;
             if ((file = this.files[0])) {
                 image = new Image();
                 image.onload = function() {
                         src = this.src;
-                        console.log(this.src);
-                $('#uploadPreview').html('<img src="'+ src +'"></div>');
+                        // console.log(this.src);
+                        $('#uploadPreview').html('<img src="'+ src +'"></div>');
                         e.preventDefault();
                     }
                 };
-                
                 image.src = _URL.createObjectURL(file);
         });
     </script>
@@ -84,10 +93,7 @@
              },
             data(){
                 return{
-                    title:'其他紀錄',
-                    medname:'伯基腸溶微粒膠囊',
-                    dose:'1顆',
-                    whenToTakeMed:'飯後'
+                    previewURLCard:[]                    
                     // patientName:'柯文華'
                 }
             },
@@ -102,21 +108,73 @@
                     }
                 },
                 async sendData() {
-                    function download(content, fileName, contentType) {
-                        var a = document.createElement("a");
-                        var file = new Blob([content], {type: contentType});
-                        a.href = URL.createObjectURL(file);
-                        a.download = fileName;
-                        a.click();
-                    }
-                    download(JSON.stringify(totalData), 'json.txt', 'text/plain');
+                    // function download(content, fileName, contentType) {
+                    //     var a = document.createElement("a");
+                    //     var file = new Blob([content], {type: contentType});
+                    //     a.href = URL.createObjectURL(file);
+                    //     a.download = fileName;
+                    //     a.click();
+                    // }
+                    // download(JSON.stringify(totalData), 'json.txt', 'text/plain');
                 },
+                addCard: function () {
+                    // this.recordedSugar.push({value: '', timing: 'before dining'});
+                },
+                chooseFile: function() {
+                    // $("#fileInput").click();
+                    this.$refs.fileInput.click()
+                    console.log('here');
+                },
+                addImgBox: function(e) {
+                    // var _URL = window.URL || window.webkitURL;
+                    let input = this.$refs.fileInput
+                    let file = input.files
+                    var image;
+                    if (file && file[0]) {
+                        image = new Image();
+                        var binaryData = [];
+                        binaryData.push(file);
+                        image.src =_URL.createObjectURL(new Blob(binaryData, {type: "application/zip"}));
+                        this.previewURLCard.push(image.src);
+                        console.log('this.previewURLCard')
+                        console.log(this.previewURLCard)
+                    };
+                    // image.onload = function() {
+                    //         src = this.src;
+                    //         $('#uploadPreview').html('<img src="'+ src +'"></div>');
+                    //         e.preventDefault();
+                    //         console.log('here2')
+                    // }
+                }
             },
             computed:{
 
             }
 
-        }).mount("#app");
+        });
+
+        vm.component('single-img',{
+            delimiters: ["$[", "]"],
+            // data(){
+            //     previewURL:null
+            // },
+            // background-image:[img_url]];
+            template:`
+            <div class="box-button-container" :style="{backgroundImage:img_url}">
+
+            </div>`,
+            methods:{
+                getUrl:function(){
+                    console.log('TESTSETSET')
+                    console.log(this.img_url)
+                    // return url(`${this.img_url}[index]`);
+                }
+            },
+            props:{img_url:String,index:Number}
+        });
+
+
+        vm.mount("#app");
     </script>
 </body>
 </html>
