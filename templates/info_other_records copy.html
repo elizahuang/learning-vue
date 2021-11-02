@@ -98,7 +98,9 @@
             methods:{
                 async getData() {
                     try {
-                        let response = await fetch("http://jsonplaceholder.typicode.com/posts");
+                        // let response = await fetch("http://jsonplaceholder.typicode.com/posts");
+                        let response = await fetch("https://private-1d5cc2-rxhelper.apiary-mock.com/patientRecord/");
+                        
                         window.alert(JSON.stringify(await response.json()));
                         // totalData=await response.json();
                     } catch (error) {
